@@ -52,7 +52,7 @@ podTemplate(yaml: '''
   node(POD_LABEL) {
 
        stage('Git sCM Checkout') {
-            git branch: 'main', credentialsId: 'gitssh-1', url: 'https://github.com/faisalbasha19/fleetman-webapp'
+            git branch: 'main', credentialsId: 'gitssh-1', url: 'https://github.com/faisalbasha19/java-repo-test-1.git'
         }
     
 //         stage('Sonarqube') {
@@ -64,7 +64,7 @@ podTemplate(yaml: '''
 //         }    
     
         stage('maven build') {
-          steps {
+          container('maven') {
                   sh 'mvn clean package -DSkipTests=true'
                    archive 'target/*.jar'
           }
@@ -72,7 +72,7 @@ podTemplate(yaml: '''
             
         stage('docker build') {
                container('docker'){
-                  sh 'docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t qa-docker-nexus.mtnsat.io/dockerrepo/${SERVICE_NAME}:${BUILD_ID} .'                   
+                  sh 'docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t $tag .'                   
                }
         }
     
@@ -83,7 +83,7 @@ podTemplate(yaml: '''
         }
         stage('docker push'){
                container('docker'){
-                   sh 'docker push qa-docker-nexus.mtnsat.io/dockerrepo/${SERVICE_NAME}:${BUILD_ID}'
+                   sh 'docker push $tag'
                }
         }
   }
