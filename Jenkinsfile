@@ -69,7 +69,19 @@ podTemplate(yaml: '''
                    archive 'target/*.jar'
           }
         }
-            
+    
+       stage('Unit tests -JUNIT') {
+         steps {
+           sh 'mvn test'
+         }
+         post {
+           always {
+                  junit 'target/surefire-reports/*.xml'
+                  jacoco execPattern: 'target/jacoco.exec'
+           }
+         }
+       }
+      
         stage('docker build') {
                container('docker'){
                   sh 'docker version && docker build -t qa-docker-nexus.mtnsat.io/dockerrepo/java-repo-test:${BUILD_ID} .'                   
