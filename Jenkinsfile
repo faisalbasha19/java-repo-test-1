@@ -16,7 +16,7 @@ podTemplate(yaml: '''
                   emptyDir: {}
                 containers:
                 - name: maven
-                  image: maven:latest
+                  image: yannoff/maven:3-openjdk-19
                   command:
                   - sleep
                   args:
