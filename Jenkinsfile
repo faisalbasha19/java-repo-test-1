@@ -59,7 +59,7 @@ podTemplate(yaml: '''
           def mvn = tool 'sonarQubeScanner';
           withSonarQubeEnv() {
             container('maven') {
-                  sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+                  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=java"
             }
           }
         }
