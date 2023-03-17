@@ -58,7 +58,9 @@ podTemplate(yaml: '''
         stage('SonarQube Analysis') {
           def mvn = tool 'sonarQubeScanner';
           withSonarQubeEnv() {
-            sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+            container('maven') {
+                  sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+            }
           }
         }
 
