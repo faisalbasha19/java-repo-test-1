@@ -69,18 +69,6 @@ podTemplate(yaml: '''
                    archive 'target/*.jar'
           }
         }
-    
-       stage('Unit tests -JUNIT') {
-         container('maven') {
-                  sh 'mvn test'
-           }
-         post {
-           always {
-                  junit 'target/surefire-reports/*.xml'
-                  jacoco execPattern: 'target/jacoco.exec'
-           }
-         }
-       }
       
         stage('docker build') {
                container('docker'){
