@@ -72,7 +72,7 @@ podTemplate(yaml: '''
             
         stage('docker build') {
                container('docker'){
-                  sh 'docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t $tag .'                   
+                  sh 'docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t qa-docker-nexus.mtnsat.io/dockerrepo/java-repo-test:${BUILD_ID} .'                   
                }
         }
     
@@ -83,7 +83,7 @@ podTemplate(yaml: '''
         }
         stage('docker push'){
                container('docker'){
-                   sh 'docker push $tag'
+                   sh 'docker push qa-docker-nexus.mtnsat.io/dockerrepo/java-repo-test:${BUILD_ID}'
                }
         }
   }
