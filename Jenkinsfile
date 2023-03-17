@@ -55,14 +55,15 @@ podTemplate(yaml: '''
             git branch: 'main', credentialsId: 'gitssh-1', url: 'https://github.com/faisalbasha19/java-repo-test-1.git'
         }
     
-//         stage('Sonarqube') {
-//                def scannerHome = tool 'sonarQubeScanner'
+        stage('SonarQube Analysis') {
+          def mvn = tool 'sonarQubeScanner';
+          withSonarQubeEnv() {
+            container('maven') {
+                  sh "mvn clean verify sonar:sonar -Dsonar.projectKey=java"
+            }
+          }
+        }
 
-//                 withSonarQubeEnv('sonarQube') {
-//                         sh "${scannerHome}/bin/sonar-scanner"
-//                 }             
-//         }    
-    
         stage('maven build') {
           container('maven') {
                   sh 'mvn clean package -DSkipTests=true'
